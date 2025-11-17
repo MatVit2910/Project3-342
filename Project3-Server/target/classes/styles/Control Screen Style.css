@@ -1,0 +1,104 @@
+/* * This CSS file styles the Server Control Screen to match the provided images.
+ * Fonts are set to a generic serif/sans-serif combination for easy viewing,
+ * but you can substitute them with custom fonts if you embed them (e.g., "Blackjack" style font).
+ */
+
+/* Root container style (AnchorPane) */
+.anchor-pane {
+    -fx-font-family: "serif"; /* Base font */
+    -fx-background-color: #004d40; /* Dark felt green fallback */
+}
+
+/* --- Title Styling --- */
+.title-text {
+    -fx-font-family: "serif"; /* Use a strong, decorative font */
+    -fx-font-size: 50pt;
+    -fx-fill: #e8c78c; /* Gold/yellow color */
+    -fx-text-fill: #e8c78c;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0.5, 2, 2);
+}
+
+.title-text-small {
+    -fx-font-family: "serif";
+    -fx-font-size: 30pt;
+    -fx-fill: #e8c78c;
+    -fx-text-fill: #e8c78c;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 8, 0.4, 1.5, 1.5);
+}
+
+/* --- Port Input/Status Styling --- */
+.port-field, .port-status {
+    -fx-background-color: #d8d8d8; /* Light gray background */
+    -fx-text-fill: #333333;
+    -fx-font-size: 16pt;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-alignment: center;
+    -fx-pref-width: 300px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.0, 1, 1);
+}
+
+/* Label for when the server is running */
+.port-status {
+    -fx-text-fill: #333333;
+}
+
+/* --- START/STOP Button Styling --- */
+.toggle-button {
+    -fx-font-family: "serif";
+    -fx-font-size: 24pt;
+    -fx-text-fill: white;
+    -fx-padding: 15px 50px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-cursor: hand;
+    -fx-pref-width: 250px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0.0, 0, 4);
+    -fx-font-weight: bold;
+}
+
+/* START Button (Green) */
+.start-button {
+    -fx-background-color: linear-gradient(to bottom, #4CAF50, #388E3C);
+    -fx-border-color: #2E7D32;
+    -fx-border-width: 3px;
+}
+
+.start-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #66BB6A, #4CAF50);
+}
+
+/* STOP Button (Red) */
+.stop-button {
+    -fx-background-color: linear-gradient(to bottom, #D32F2F, #B71C1C);
+    -fx-border-color: #C62828;
+    -fx-border-width: 3px;
+}
+
+.stop-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #E53935, #D32F2F);
+}
+
+/* --- Navigation Bar Styling --- */
+.nav-button {
+    -fx-font-family: "serif";
+    -fx-font-size: 20pt;
+    -fx-text-fill: #ffffff; /* White text for inactive */
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 5px 20px;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-text-fill: #e8c78c; /* Gold/yellow on hover */
+}
+
+/* Active Navigation Button Styling */
+.nav-button-active {
+    -fx-text-fill: #e8c78c; /* Gold/yellow text for active */
+    -fx-border-color: #e8c78c; /* Subtle gold line beneath the active text */
+    -fx-border-width: 0 0 3px 0;
+}
