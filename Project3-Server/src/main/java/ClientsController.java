@@ -17,22 +17,26 @@ public class ClientsController implements Initializable {
     @FXML
     private Label clientsLabel;
 
+    private ViewManager manager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
+    public void setManager(ViewManager manager) {
+        this.manager = manager;
+    }
 
     public void handleControl(ActionEvent e) throws IOException {
-        System.out.println("Control Btn Clicked");
+        manager.showView1();
     }
 
     public void handleClients(ActionEvent e) throws IOException {
-        System.out.println("Client Btn Clicked");
+        manager.showView2();
     }
 
     public void handleLog() {
-        System.out.println("Server Log button clicked!");
+        manager.showView3();
     }
 }

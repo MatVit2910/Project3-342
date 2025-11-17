@@ -3,17 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller = "IntroController" styleClass="root">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller = "LogController" styleClass="root">
     <center>
-        <VBox alignment="CENTER" spacing="15" translateX="250">
-            <VBox alignment="CENTER" spacing="10">
-                <Label styleClass="title-text" text="3 CARD POKER"/>
-                <Label styleClass="title-text" text="SERVER" />
-            </VBox>
-            <HBox alignment="CENTER">
-                <TextField fx:id="portInput" styleClass="port-field" promptText="Port Number"/>
-            </HBox>
-            <Button fx:id="toggleButton" onAction="#handleToggleButton" styleClass="start-button" text="START" />
+        <VBox alignment="CENTER" spacing="10" translateX="250">
+            <Label styleClass="title-text" text="SERVER LOG"/>
+            <ListView styleClass="log-container"/>
         </VBox>
     </center>
     <bottom>

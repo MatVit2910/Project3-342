@@ -5,22 +5,24 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+import java.io.IOException;
+
 
 public class Main extends Application {
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         try {
             // Read file fxml and draw interface.
-            Parent root = FXMLLoader.load(getClass()
-                    .getResource("/FXML/Control Screen.fxml"));
+            ViewManager manager = new ViewManager();
 
+            Scene scene = new Scene(manager.getRoot());
+            primaryStage.setScene(scene);
             primaryStage.setTitle("3 Card Poker - Server");
-            Scene s1 = new Scene(root);
-            s1.getStylesheets().add("/styles/control.css");
-            Font.loadFont(getClass().getResourceAsStream("/fonts/IrishGrover-Regular.ttf"), 10);
-            primaryStage.setScene(s1);
-            primaryStage.setMaximized(true); //full screen because otherwise it looks ugly :)
+            primaryStage.setMaximized(true);
             primaryStage.show();
+
+            // Start with view 1
+            manager.showView1();
 
         } catch(Exception e) {
             e.printStackTrace();

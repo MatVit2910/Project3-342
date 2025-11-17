@@ -13,21 +13,24 @@ import java.util.ResourceBundle;
 
 public class IntroController implements Initializable {
 
-    // FXML injected UI components
     @FXML
     private TextField portInput;
     @FXML
     private Button toggleButton;
-    @FXML
+
+    private ViewManager manager;
 
     // Internal state tracking
     private boolean isServerRunning = false;
-    private String savedPort;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    public void setManager(ViewManager manager) {
+        this.manager = manager;
     }
 
     public void handleToggleButton() {
@@ -48,7 +51,7 @@ public class IntroController implements Initializable {
         } else {
             // START state logic (Simulate starting the server)
             String port = portInput.getText();
-            if (savedPort == null && (port == null || port.isEmpty())) {
+            if (port == null || port.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Missing port number");
                 alert.setHeaderText("Please add a port number (e.g. 88888)");
@@ -57,31 +60,28 @@ public class IntroController implements Initializable {
             }
             else{
                 isServerRunning = true;
-                if (savedPort == null) {
-                    savedPort = port;
-                }
                 toggleButton.setText("STOP");
                 toggleButton.getStyleClass().remove("start-button");
                 toggleButton.getStyleClass().add("stop-button");
 
                 // Switch from input field to status label
                 portInput.setDisable(true);
-                portInput.setText("Running on port: " + savedPort);
+                portInput.setText("Running on port: " + port);
 
-                System.out.println("SERVER: Server started on port " + savedPort);
+                System.out.println("SERVER: Server started on port " + port);
             }
         }
     }
 
     public void handleControl(ActionEvent e) throws IOException {
-        System.out.println("Control Btn Clicked");
+        manager.showView1();
     }
 
     public void handleClients(ActionEvent e) throws IOException {
-        System.out.println("Client Btn Clicked");
+        manager.showView2();
     }
 
     public void handleLog() {
-        System.out.println("Server Log button clicked!");
+        manager.showView3();
     }
 }
