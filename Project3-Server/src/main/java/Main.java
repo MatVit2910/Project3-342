@@ -1,28 +1,24 @@
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         try {
-            // Read file fxml and draw interface.
-            ViewManager manager = new ViewManager();
+            ScreenChanger mainScreen = new ScreenChanger();
 
-            Scene scene = new Scene(manager.getRoot());
+            Scene scene = new Scene(mainScreen.getRoot());
             primaryStage.setScene(scene);
             primaryStage.setTitle("3 Card Poker - Server");
             primaryStage.setMaximized(true);
             primaryStage.show();
 
-            // Start with view 1
-            manager.showView1();
+            mainScreen.controlScreen();
 
         } catch(Exception e) {
             e.printStackTrace();

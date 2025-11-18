@@ -1,23 +1,22 @@
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.Node;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
 
-public class ViewManager {
+public class ScreenChanger {
 
     private final BorderPane root = new BorderPane();
 
-    private Node controlScreen;
-    private Node clientsScreen;
-    private Node logScreen;
+    private final BorderPane controlScreen;
+    private final BorderPane clientsScreen;
+    private final BorderPane logScreen;
 
     private IntroController c1;
     private ClientsController c2;
     private LogController c3;
 
-    public ViewManager() throws IOException {
+    public ScreenChanger() throws IOException {
         // load all views once
         FXMLLoader f1 = new FXMLLoader(getClass().getResource("/FXML/Control Screen.fxml"));
         controlScreen = f1.load();
@@ -41,17 +40,17 @@ public class ViewManager {
         return root;
     }
 
-    public void showView1() {
+    public void controlScreen() {
         root.setCenter(controlScreen);
         root.getStylesheets().add("/styles/control.css");
     }
 
-    public void showView2() {
+    public void clientsScreen() {
         root.setCenter(clientsScreen);
         root.getStylesheets().add("/styles/clients.css");
     }
 
-    public void showView3() {
+    public void logScreen() {
         root.setCenter(logScreen);
         root.getStylesheets().add("/styles/log.css");
     }
