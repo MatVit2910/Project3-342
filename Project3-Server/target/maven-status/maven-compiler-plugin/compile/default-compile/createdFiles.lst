@@ -1,4 +1,6 @@
 Deck.class
+PokerLogic.class
 ScreenChanger.class
 Main.class
 Card.class
+Game.class

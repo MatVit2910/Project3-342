@@ -13,4 +13,23 @@ public class Card {
     public String getRank(){
         return rank;
     }
+    public int getRankValue(){
+        try {
+            return Integer.parseInt(rank);
+        }
+        catch(Exception e){
+            switch (rank){
+                case "A":
+                    return 14;
+                case "J":
+                    return 11;
+                case "Q":
+                    return 12;
+                case "K":
+                    return 13;
+                default:
+                    return -1;
+            }
+        }
+    }
 }

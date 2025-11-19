@@ -19,7 +19,7 @@ public class Deck {
         //populate deck
         for (String suit : suits) {
             for (String rank : ranks) {
-                Card card = new Card(rank, suit);
+                Card card = new Card(suit, rank);
                 cards.add(card);
             }
         }
@@ -36,6 +36,9 @@ public class Deck {
 
     public void shuffle(){
         Collections.shuffle(cards);
+    }
+    public  ArrayList<Card> getCards(){
+        return cards;
     }
 
 }
