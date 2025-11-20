@@ -15,7 +15,7 @@ public class LogController implements Initializable {
 
     }
 
-    public void setManager(ScreenChanger manager) {
+    public void setScreenChanger(ScreenChanger manager) {
         this.manager = manager;
     }
 

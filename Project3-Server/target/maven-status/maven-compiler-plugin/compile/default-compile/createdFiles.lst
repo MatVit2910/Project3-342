@@ -1,6 +1,9 @@
+Client.class
 Deck.class
-PokerLogic.class
 ScreenChanger.class
 Main.class
+Server$ClientThread.class
+Server.class
 Card.class
 Game.class
+Server$TheServer.class

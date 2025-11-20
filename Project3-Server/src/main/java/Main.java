@@ -27,7 +27,7 @@ public class Main extends Application {
             for (Card c : g.getDealerHand()){
                 System.out.println(c.getRank() + " " + c.getSuit());
             }
-            System.out.println("Amt:" + PokerLogic.compareHands(g.getDealerHand(), g.getPlayerHand(), 5, 5));
+            System.out.println("Amt:" + g.compareHands(g.getDealerHand(), g.getPlayerHand(), 5, 5));
             mainScreen.controlScreen();
 
         } catch(Exception e) {

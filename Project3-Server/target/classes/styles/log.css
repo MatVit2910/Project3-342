@@ -1,5 +1,7 @@
 .root{
     -fx-background-image: url("/images/background.jpeg");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 .title-text{
@@ -14,7 +16,7 @@
     -fx-border-width: 15;
     -fx-background-radius: 30;
     -fx-border-color: #02180E;
-    -fx-max-width: 800;
+    -fx-max-width: 700;
 }
 
 .nav-button{
@@ -25,5 +27,6 @@
 }
 
 .nav-button:hover{
-    -fx-text-fill: black;
+    -fx-cursor: hand;
+    -fx-underline: true;
 }
