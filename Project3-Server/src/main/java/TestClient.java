@@ -28,7 +28,7 @@ public class TestClient {
             System.out.println("Server replied: " + response.toString());
 
             // --- 3. Delay the Close Operation ---
-            long delaySeconds = 5;
+            long delaySeconds = 10;
             System.out.printf("Holding connection for %d seconds...\n", delaySeconds);
 
             // This is the correct way to pause the thread

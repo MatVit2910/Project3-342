@@ -3,11 +3,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class IntroController implements Initializable {
@@ -74,6 +76,8 @@ public class IntroController implements Initializable {
                         LogController.logRef.getItems().add(data.toString());
                         LogController.logRef.scrollTo(LogController.logRef.getItems().size() - 1);
                         ClientsController.clientsLabelRef.setText("Clients: " + serverConnection.clients.size());
+                        updateClientsGrid(serverConnection.clients);
+
                     })
                     );
                     System.out.println("SERVER: Server started on port " + portStr);
@@ -103,5 +107,19 @@ public class IntroController implements Initializable {
     //getters
     public static Integer getPortNum() {
         return portNum;
+    }
+
+    // This helper method needs to exist within the scope where 'ClientsController' is available
+    private void updateClientsGrid(ArrayList<Server.ClientThread> activeClients) {
+        ClientsController.clientsGridRef.getChildren().clear();
+        int index = 0;
+        for (Server.ClientThread client : activeClients) {
+            int row = index /4;
+            int col = index % 4;
+            Label clientLabel = new Label("Client #" + client.count);
+            clientLabel.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-pref-width: 100; -fx-alignment: CENTER; -fx-background-radius: 30; -fx-font-weight: bold888; -fx-border-radius: 30");
+            ClientsController.clientsGridRef.add(clientLabel, col, row);
+            index++;
+        }
     }
 }
