@@ -3,11 +3,13 @@ public class Card {
     //data members
     private String suit;
     private String rank;
+    private String url;
 
     //constructor
-    public Card(String suit, String rank){
+    public Card(String suit, String rank, String url) {
         this.suit = suit;
         this.rank = rank;
+        this.url = url;
     }
 
     //getters
@@ -17,6 +19,7 @@ public class Card {
     public String getRank(){
         return rank;
     }
+    public String getUrl(){return url;}
 
     //a function that transforms card ranks into integers
     //for comparison purposes

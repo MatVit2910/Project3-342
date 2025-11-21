@@ -10,7 +10,6 @@ public class Deck {
     //constructor
     public Deck(){
         cards = new ArrayList<>();
-
         //arr of ranks
         String[] ranks = {
                "A", "2", "3", "4", "5", "6", "7", "8", "9", "10",
@@ -25,7 +24,8 @@ public class Deck {
         //populate deck
         for (String suit : suits) {
             for (String rank : ranks) {
-                Card card = new Card(suit, rank);
+                String url = "/cards/" + rank + suit.charAt(0) + ".jpeg";
+                Card card = new Card(suit, rank, url);
                 cards.add(card);
             }
         }

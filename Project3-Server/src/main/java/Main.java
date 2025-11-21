@@ -28,6 +28,10 @@ public class Main extends Application {
                 System.out.println(c.getRank() + " " + c.getSuit());
             }
             System.out.println("Amt:" + g.compareHands(g.getDealerHand(), g.getPlayerHand(), 5, 5));
+            Deck d = new Deck();
+            for (Card c : d.getCards()){
+                System.out.println(c.getUrl());
+            }
             mainScreen.controlScreen();
 
         } catch(Exception e) {
