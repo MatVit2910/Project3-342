@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -21,7 +22,7 @@ public class IntroController implements Initializable {
     // Internal state tracking
     private boolean isServerRunning = false;
     private static Integer portNum;
-    private Server serverConnection;
+    public static Server serverConnection;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,8 +70,12 @@ public class IntroController implements Initializable {
                     // Switch from input field to status label
                     portInput.setDisable(true);
                     portInput.setText("Running on port: " + portStr);
-                    serverConnection = new Server(data -> System.out.println("Received: " + data)
-                        );
+                    serverConnection = new Server(data -> Platform.runLater(() -> {
+                        LogController.logRef.getItems().add(data.toString());
+                        LogController.logRef.scrollTo(LogController.logRef.getItems().size() - 1);
+                        ClientsController.clientsLabelRef.setText("Clients: " + serverConnection.clients.size());
+                    })
+                    );
                     System.out.println("SERVER: Server started on port " + portStr);
                 } catch (Exception e) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);

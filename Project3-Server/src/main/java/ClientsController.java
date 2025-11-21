@@ -11,12 +11,13 @@ public class ClientsController implements Initializable {
 
     @FXML
     private Label clientsLabel;
+    public static Label clientsLabelRef;
 
     private ScreenChanger manager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        clientsLabelRef = clientsLabel;
     }
 
     public void setScreenChanger(ScreenChanger manager) {

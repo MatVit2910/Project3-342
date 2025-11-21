@@ -19,6 +19,14 @@
     -fx-max-width: 700;
 }
 
+.log-container .list-cell{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: "Irish Grover";
+    -fx-font-size: 20;
+    -fx-wrap-text: true;
+}
+
 .nav-button{
     -fx-font-family: "Irish Grover";
     -fx-background-color: transparent;

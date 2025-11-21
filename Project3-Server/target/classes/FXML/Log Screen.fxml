@@ -7,7 +7,7 @@
     <center>
         <VBox alignment="CENTER" spacing="10" translateX="250">
             <Label styleClass="title-text" text="SERVER LOG"/>
-            <ListView styleClass="log-container"/>
+            <ListView fx:id="log" styleClass="log-container"/>
         </VBox>
     </center>
     <bottom>
