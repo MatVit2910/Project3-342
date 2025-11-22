@@ -35,7 +35,7 @@ public class Game {
     //a function to get the sorted rank values of a hand of cards
     //it returns an array of ints with the sorted ranks
     private ArrayList<Integer> getSortedRanks(ArrayList<Card> hand){
-        ArrayList<Integer> ranks = new ArrayList<Integer>();
+        ArrayList<Integer> ranks = new ArrayList<>();
         for (Card c : hand){
             ranks.add(c.getRankValue());
         }

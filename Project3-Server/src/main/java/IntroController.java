@@ -78,6 +78,9 @@ public class IntroController implements Initializable {
                         ClientsController.clientsLabelRef.setText("Clients: " + serverConnection.clients.size());
                         updateClientsGrid(serverConnection.clients);
 
+                    }),data -> Platform.runLater(() -> {
+                        ClientsController.clientLogRef.getItems().add(data.toString());
+                        ClientsController.clientLogRef.scrollTo(ClientsController.clientLogRef.getItems().size() - 1);
                     })
                     );
                     System.out.println("SERVER: Server started on port " + portStr);

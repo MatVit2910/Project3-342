@@ -2,6 +2,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
@@ -18,12 +19,17 @@ public class ClientsController implements Initializable {
     private GridPane clientsGrid;
     public static GridPane clientsGridRef;
 
+    @FXML
+    private ListView<String> clientLog;
+    public static ListView<String> clientLogRef;
+
     private ScreenChanger manager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         clientsLabelRef = clientsLabel;
         clientsGridRef = clientsGrid;
+        clientLogRef = clientLog;
     }
 
     public void setScreenChanger(ScreenChanger manager) {

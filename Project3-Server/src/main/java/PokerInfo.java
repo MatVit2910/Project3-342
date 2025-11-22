@@ -11,6 +11,7 @@ public class PokerInfo implements Serializable {
     private int winningsAmt;
     private int pairPlus;
     private boolean fold;
+    private boolean dealerQualifies;
     public PokerInfo(){
         player = null;
         dealer = null;
@@ -21,6 +22,7 @@ public class PokerInfo implements Serializable {
         winningsAmt = 0;
         pairPlus = 0;
         fold = false;
+        dealerQualifies = false;
     }
 
     //setters
@@ -51,6 +53,9 @@ public class PokerInfo implements Serializable {
     public void setPlayBet(int playBet){
         this.playBet = playBet;
     }
+    public void setDealerQualifies(boolean dealerQualifies){
+        this.dealerQualifies = dealerQualifies;
+    }
 
     //getters
     public ArrayList<Card> getPlayerHand(){
@@ -75,5 +80,8 @@ public class PokerInfo implements Serializable {
     }
     public int getPlayBet(){
         return playBet;
+    }
+    public boolean getDealerQualifies(){
+        return dealerQualifies;
     }
 }

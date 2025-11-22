@@ -79,7 +79,7 @@ public class ThreeCardPoker {
 
 
             //IGNORE THIS SHI
-            TimeUnit.SECONDS.sleep(10);
+            TimeUnit.SECONDS.sleep(50);
 
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("❌ Client error: " + e.getMessage());

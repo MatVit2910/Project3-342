@@ -9,6 +9,7 @@
             <Label styleClass="title-text" text="CLIENTS"/>
             <Label styleClass="title-text-small" fx:id="clientsLabel" text="Clients: 0"/>
             <GridPane hgap="10" vgap="10" fx:id="clientsGrid" alignment="center" maxWidth="400"/>
+            <ListView fx:id="clientLog" styleClass="log-container"/>
         </VBox>
     </center>
     <bottom>

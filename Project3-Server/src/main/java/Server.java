@@ -7,26 +7,37 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import javafx.application.Platform;
-import javafx.scene.control.ListView;
-
 
 public class Server{
 
     int count = 1;
-    public final ArrayList<ClientThread> clients = new ArrayList<ClientThread>();
+    public final ArrayList<ClientThread> clients = new ArrayList<>();
     TheServer server;
-    private final Consumer<Serializable> callback;
+    private final Consumer<Serializable> logCallback;
+    private final Consumer<Serializable> clientCallback;
+    private boolean running = false;
 
 
-    Server(Consumer<Serializable> call){
+    Server(Consumer<Serializable> call1, Consumer<Serializable> call2){
 
-        callback = call;
+        logCallback = call1;
+        logCallback.accept("Server started");
+        running = true;
+        clientCallback = call2;
         server = new TheServer();
         server.start();
     }
 
     public void stop() throws IOException {
+        synchronized (clients) {
+            for (ClientThread client : clients) {
+                try {
+                    client.connection.close();
+                } catch (IOException e) {
+                }
+            }
+            clients.clear();
+        }
         server.socketRef.close();
     }
 
@@ -34,7 +45,7 @@ public class Server{
         ServerSocket socketRef;
         public void run() {
 
-            try(ServerSocket mysocket = new ServerSocket(IntroController.getPortNum());){
+            try(ServerSocket mysocket = new ServerSocket(IntroController.getPortNum())){
                 System.out.println("Server is waiting for a client!");
                 socketRef = mysocket;
 
@@ -45,12 +56,12 @@ public class Server{
                         clients.add(c);
                     }
                     c.start();
+                    logCallback.accept("Client has connected to server: " + "Client #" + count);
                     count++;
-                    callback.accept("Client has connected to server: " + "Client #" + count);
                 }
             }//end of try
             catch(Exception e) {
-                callback.accept("Server socket stopped.");
+                logCallback.accept("Server stopped.");
             }
         }//end of while
     }
@@ -63,21 +74,10 @@ public class Server{
         int count;
         ObjectInputStream in;
         ObjectOutputStream out;
-        ArrayList<GameHistory> gameHistory = new ArrayList<>();
 
         ClientThread(Socket s, int count){
             this.connection = s;
             this.count = count;
-        }
-
-        public void updateClients(String message) {
-            synchronized (clients) {
-                for (ClientThread t : clients) {
-                    try {
-                        t.out.writeObject(message);
-                    } catch (Exception e) {}
-                }
-            }
         }
 
         public void run(){
@@ -93,7 +93,7 @@ public class Server{
 
             while(true) {
                 try {
-                    callback.accept("Client #" +count+ " is playing a new hand.");
+                    clientCallback.accept("Client #" +count+ " is playing a new hand.");
                     //create and start new game
                     Game game = new Game();
                     game.startGame();
@@ -104,11 +104,16 @@ public class Server{
                     sendData.setPlayerHand(game.getPlayerHand());
                     sendData. setDealerStr(game.evaluateHand(game.getDealerHand()));
                     sendData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
+                    sendData.setDealerQualifies(game.dealerQualifies());
                     out.writeObject(sendData);
 
                     PokerInfo readData = (PokerInfo) in.readObject();
+                    clientCallback.accept("Client #" + count + " bet: $" + readData.getAnteBet() + " for Ante Bet and $"
+                            + readData.getPairPlus() + " for Pair Plus"
+                    );
 
                     if (readData.getFold()){
+                        clientCallback.accept("Client #" + count + " folded and lost $" + readData.getAnteBet());
                         sendData.setWinningsAmt(0);
                     }
                     else{
@@ -117,19 +122,34 @@ public class Server{
                     }
                     sendData.setPairPlus(game.calculatePairPlus(game.getPlayerHand(), readData.getPairPlus()));
 
+                    if (!readData.getFold()){
+                        clientCallback.accept("Client #" + count +"'s Hand: " + sendData.getPlayerStr() + " vs. Dealer's Hand: " + sendData.getDealerStr()
+                        );
+                        if (sendData.getWinningsAmt() == 0){
+                            clientCallback.accept("Client #" + count + " lost $" + (readData.getAnteBet() + readData.getPlayBet()));
+                        }
+                        else if(!game.dealerQualifies()){
+                            clientCallback.accept("Client #" + count + " got their money back. Dealer didn't qualify");
+                        }
+                        else if (sendData.getWinningsAmt() > 0){
+                            clientCallback.accept("Client #" + count + " won $" + (readData.getAnteBet() + readData.getPlayBet()));
+                        }
+                        else{
+                            clientCallback.accept("Client #" + count + " and Dealer's hands are the same??!! They got their money back");
+                        }
+                    }
+                    if (readData.getPairPlus() != 0){
+                        clientCallback.accept("Client #" + count + " won $" + sendData.getPairPlus() + " for Pair Plus");
+                    }
                     out.writeObject(sendData);
-
-                    //add game results to history
-                    GameHistory curr = new GameHistory(readData.getAnteBet(), readData.getPlayBet(), readData.getPairPlus(), "Dealer Hand: " + sendData.getDealerStr() + " Player Hand: " + sendData.getPlayerStr(), 0);
-                    gameHistory.add(curr);
 
                 }
                 catch(Exception e) {
-                    updateClients("Client #"+count+" has left the server!");
                     synchronized (clients) {
                         clients.remove(this);
                     }
-                    callback.accept("Client #" + count + " has left the server.");
+                    logCallback.accept("Client #" + count + " has left the server.");
+
                     break;
                 }
             }
