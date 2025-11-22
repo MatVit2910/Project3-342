@@ -2,16 +2,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PokerInfo implements Serializable {
-    ArrayList<Card> player;
-    ArrayList<Card> dealer;
-    int anteBet;
-    int playBet;
-    int winningsAmt;
-    int pairPlus;
-    boolean fold;
+    private ArrayList<Card> player;
+    private ArrayList<Card> dealer;
+    private String playerStr;
+    private String dealerStr;
+    private int anteBet;
+    private int playBet;
+    private int winningsAmt;
+    private int pairPlus;
+    private boolean fold;
     public PokerInfo(){
         player = null;
         dealer = null;
+        playerStr = "";
+        dealerStr = "";
         anteBet = 0;
         playBet = 0;
         winningsAmt = 0;
@@ -25,6 +29,12 @@ public class PokerInfo implements Serializable {
     }
     public void setDealerHand(ArrayList<Card> dealer){
         this.dealer = dealer;
+    }
+    public void setPlayerStr(String playerStr){
+        this.playerStr = playerStr;
+    }
+    public void setDealerStr(String dealerStr){
+        this.dealerStr = dealerStr;
     }
     public void setWinningsAmt(int winningsAmt){
         this.winningsAmt = winningsAmt;
@@ -49,6 +59,8 @@ public class PokerInfo implements Serializable {
     public ArrayList<Card> getDealerHand(){
         return dealer;
     }
+    public String getPlayerStr(){return  playerStr;}
+    public String getDealerStr(){return  dealerStr;}
     public int getWinningsAmt(){
         return winningsAmt;
     }

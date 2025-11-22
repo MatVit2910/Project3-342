@@ -7,12 +7,11 @@ public class Game {
     private final Deck deck;
     private ArrayList<Card> dealerHand;
     private ArrayList<Card> playerHand;
-    private boolean inProgress;
+    private boolean dealerQualifies;
 
     //constructor
     public Game() {
         deck = new Deck();
-        inProgress = false;
     }
 
     //a function to start the 3 card poker game
@@ -21,7 +20,6 @@ public class Game {
         deck.shuffle();
         playerHand = deck.dealHand();
         dealerHand = deck.dealHand();
-        inProgress = true;
     }
 
     // hashmap to rank each hand
@@ -117,7 +115,7 @@ public class Game {
     //returns an int representing the winnings amt
     public int compareHands(ArrayList<Card> dealer, ArrayList<Card> player, int anteBet, int playBet){
 
-        boolean dealerQualifies = false;
+        dealerQualifies = false;
         String dealerHand = evaluateHand(dealer);
 
         if (handsOrder.get(dealerHand) >= handsOrder.get("Pair")){
@@ -181,9 +179,8 @@ public class Game {
     public ArrayList<Card> getDealerHand() {
         return dealerHand;
     }
-    public boolean isInProgress() {return inProgress;}
-
-    //setters
-    public void setInProgress(boolean inProgress) {this.inProgress = inProgress;}
+    public boolean dealerQualifies() {
+        return dealerQualifies;
+    }
 
 }

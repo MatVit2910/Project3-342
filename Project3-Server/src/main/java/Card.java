@@ -1,5 +1,7 @@
+import java.io.Serializable;
+
 //a class that represents a card
-public class Card {
+public class Card implements Serializable {
     //data members
     private String suit;
     private String rank;

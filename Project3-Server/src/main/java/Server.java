@@ -91,49 +91,37 @@ public class Server{
                 System.out.println("Streams not open");
             }
 
-            updateClients("new client on server: client #"+count);
-
             while(true) {
                 try {
                     callback.accept("Client #" +count+ " is playing a new hand.");
-//                    //create and start new game
-//                    Game game = new Game();
-//                    game.startGame();
-//
-//                    //send player hand
-//                    ArrayList<Object> response = new ArrayList<>();
-//                    response.add(game.getPlayerHand());
-//                    response.add(game.evaluateHand(game.getPlayerHand()));
-//                    out.writeObject(response);
-//
-//                    //read player actions
-//                    ArrayList<Integer> actions = (ArrayList<Integer>) in.readObject();
-//                    response.clear();
-//                    response.add(game.getDealerHand());
-//
-//                    //check if player folded or not
-//                    if (actions.get(0) == 0){
-//                        response.add(game.compareHands(game.getDealerHand(), game.getPlayerHand(), actions.get(1), actions.get(2)));
-//                    }
-//                    else{
-//                        response.add(0);
-//                    }
-//                    response.add(game.calculatePairPlus(game.getPlayerHand(), actions.get(3)));
-//
-//                    //send results
-//                    out.writeObject(response);
-//
-//
-//                    String data = in.readObject().toString();
-//                    updateClients("client #"+count+" said: "+data);
+                    //create and start new game
+                    Game game = new Game();
+                    game.startGame();
 
-                    //Testing el game history
-                    GameHistory curr = new GameHistory(0, 0, 0, "Dealer Hand: " + "Player Hand: ", 0);
+                    //send client initial game data
+                    PokerInfo sendData = new PokerInfo();
+                    sendData.setDealerHand(game.getDealerHand());
+                    sendData.setPlayerHand(game.getPlayerHand());
+                    sendData. setDealerStr(game.evaluateHand(game.getDealerHand()));
+                    sendData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
+                    out.writeObject(sendData);
+
+                    PokerInfo readData = (PokerInfo) in.readObject();
+
+                    if (readData.getFold()){
+                        sendData.setWinningsAmt(0);
+                    }
+                    else{
+                        sendData.setWinningsAmt(game.compareHands(game.getDealerHand(),
+                        game.getPlayerHand(), readData.getAnteBet(), readData.getPlayBet()));
+                    }
+                    sendData.setPairPlus(game.calculatePairPlus(game.getPlayerHand(), readData.getPairPlus()));
+
+                    out.writeObject(sendData);
+
+                    //add game results to history
+                    GameHistory curr = new GameHistory(readData.getAnteBet(), readData.getPlayBet(), readData.getPairPlus(), "Dealer Hand: " + sendData.getDealerStr() + " Player Hand: " + sendData.getPlayerStr(), 0);
                     gameHistory.add(curr);
-
-                    //ignore this shi
-                    Object clientData = in.readObject();
-                    updateClients("Client #"+count+" sent: "+clientData.toString());
 
                 }
                 catch(Exception e) {

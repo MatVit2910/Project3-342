@@ -117,7 +117,7 @@ public class IntroController implements Initializable {
             int row = index /4;
             int col = index % 4;
             Label clientLabel = new Label("Client #" + client.count);
-            clientLabel.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-pref-width: 100; -fx-alignment: CENTER; -fx-background-radius: 30; -fx-font-weight: bold888; -fx-border-radius: 30");
+            clientLabel.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-pref-width: 100; -fx-alignment: CENTER; -fx-background-radius: 30; -fx-font-weight: bold; -fx-border-radius: 30");
             ClientsController.clientsGridRef.add(clientLabel, col, row);
             index++;
         }
