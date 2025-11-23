@@ -117,7 +117,6 @@ public class Server{
                         responseData.setPlayerHand(game.getPlayerHand());
                         responseData. setDealerStr(game.evaluateHand(game.getDealerHand()));
                         responseData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
-                        responseData.setDealerQualifies(game.dealerQualifies());
                         if (readData.getFold()){
                             clientCallback.accept("Client #" + count + " folded and lost $" + readData.getAnteBet());
                             responseData.setWinningsAmt(0);
@@ -125,6 +124,7 @@ public class Server{
                         else{
                             responseData.setWinningsAmt(game.compareHands(game.getDealerHand(),
                                     game.getPlayerHand(), readData.getAnteBet(), readData.getPlayBet()));
+                            responseData.setDealerQualifies(game.dealerQualifies());
                         }
                         responseData.setPairPlusAmt(game.calculatePairPlus(game.getPlayerHand(), readData.getPairPlus()));
 
