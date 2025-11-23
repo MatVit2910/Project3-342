@@ -133,7 +133,7 @@ public class Game {
         // print statements are for easier debugging
         if (!dealerQualifies){
             System.out.println("Dealer doesn't qualify");
-            return (playBet);
+            return (anteBet+playBet);
         }
         String playerHand = evaluateHand(player);
         System.out.println("Player:" + playerHand);
@@ -147,7 +147,7 @@ public class Game {
         }
         else if (dealerScore < playerScore){
             System.out.println("Player won :D");
-            return (anteBet+playBet);
+            return (anteBet+playBet)*2;
         }
         else{
             ArrayList<Integer> playerRanks = getSortedRanks(player);
@@ -158,7 +158,7 @@ public class Game {
 
                 if (playerCard > dealerCard) {
                     System.out.println("Player won :D");
-                    return (anteBet+playBet);
+                    return (anteBet+playBet)*2;
                 } else if (playerCard < dealerCard) {
                     System.out.println("Player lost :c");
                     return 0;
