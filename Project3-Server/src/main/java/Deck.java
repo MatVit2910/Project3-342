@@ -24,7 +24,7 @@ public class Deck {
         //populate deck
         for (String suit : suits) {
             for (String rank : ranks) {
-                String url = "/cards/" + rank + suit.charAt(0) + ".jpeg";
+                String url = "/cards/" + rank + suit.charAt(0) + ".png";
                 Card card = new Card(suit, rank, url);
                 cards.add(card);
             }

@@ -24,7 +24,7 @@ public class IntroController implements Initializable {
     // Internal state tracking
     private boolean isServerRunning = false;
     private static Integer portNum;
-    public static Server serverConnection;
+    private static Server serverConnection;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

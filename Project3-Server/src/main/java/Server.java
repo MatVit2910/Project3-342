@@ -93,61 +93,65 @@ public class Server{
 
             while(true) {
                 try {
-                    clientCallback.accept("Client #" +count+ " is playing a new hand.");
-                    //create and start new game
-                    Game game = new Game();
-                    game.startGame();
+                    PokerInfo readInitialData = (PokerInfo) in.readObject();
+                    System.out.println("GAME STARTED");
+                    if (readInitialData.getStartNewGame()) {
+                        clientCallback.accept("Client #" +count+ " is playing a new hand.");
+                        //create and start new game
+                        Game game = new Game();
+                        game.startGame();
 
-                    //send client initial game data
-                    PokerInfo initialData = new PokerInfo();
-                    initialData.setDealerHand(game.getDealerHand());
-                    initialData.setPlayerHand(game.getPlayerHand());
-                    initialData. setDealerStr(game.evaluateHand(game.getDealerHand()));
-                    initialData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
-                    initialData.setDealerQualifies(game.dealerQualifies());
-                    out.writeObject(initialData);
+                        //send client initial game data
+                        PokerInfo initialData = new PokerInfo();
+                        initialData.setDealerHand(game.getDealerHand());
+                        initialData.setPlayerHand(game.getPlayerHand());
+                        initialData. setDealerStr(game.evaluateHand(game.getDealerHand()));
+                        initialData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
+                        initialData.setDealerQualifies(game.dealerQualifies());
+                        out.writeObject(initialData);
 
-                    PokerInfo readData = (PokerInfo) in.readObject();
-                    clientCallback.accept("Client #" + count + " bet: $" + readData.getAnteBet() + " for Ante Bet and $"
-                            + readData.getPairPlus() + " for Pair Plus"
-                    );
-
-                    PokerInfo responseData = new PokerInfo();
-                    responseData.setDealerHand(game.getDealerHand());
-                    responseData.setPlayerHand(game.getPlayerHand());
-                    responseData. setDealerStr(game.evaluateHand(game.getDealerHand()));
-                    responseData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
-                    responseData.setDealerQualifies(game.dealerQualifies());
-                    if (readData.getFold()){
-                        clientCallback.accept("Client #" + count + " folded and lost $" + readData.getAnteBet());
-                        responseData.setWinningsAmt(0);
-                    }
-                    else{
-                        responseData.setWinningsAmt(game.compareHands(game.getDealerHand(),
-                        game.getPlayerHand(), readData.getAnteBet(), readData.getPlayBet()));
-                    }
-                    responseData.setPairPlus(game.calculatePairPlus(game.getPlayerHand(), readData.getPairPlus()));
-
-                    if (!readData.getFold()){
-                        clientCallback.accept("Client #" + count +"'s Hand: " + responseData.getPlayerStr() + " vs. Dealer's Hand: " + responseData.getDealerStr()
+                        PokerInfo readData = (PokerInfo) in.readObject();
+                        clientCallback.accept("Client #" + count + " bet: $" + readData.getAnteBet() + " for Ante Bet and $"
+                                + readData.getPairPlus() + " for Pair Plus"
                         );
-                        if (responseData.getWinningsAmt() == 0){
-                            clientCallback.accept("Client #" + count + " lost $" + (readData.getAnteBet() + readData.getPlayBet()));
-                        }
-                        else if(!game.dealerQualifies()){
-                            clientCallback.accept("Client #" + count + " got their money back. Dealer didn't qualify");
-                        }
-                        else if (responseData.getWinningsAmt() > 0){
-                            clientCallback.accept("Client #" + count + " won $" + (readData.getAnteBet() + readData.getPlayBet()));
+
+                        PokerInfo responseData = new PokerInfo();
+                        responseData.setDealerHand(game.getDealerHand());
+                        responseData.setPlayerHand(game.getPlayerHand());
+                        responseData. setDealerStr(game.evaluateHand(game.getDealerHand()));
+                        responseData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
+                        responseData.setDealerQualifies(game.dealerQualifies());
+                        if (readData.getFold()){
+                            clientCallback.accept("Client #" + count + " folded and lost $" + readData.getAnteBet());
+                            responseData.setWinningsAmt(0);
                         }
                         else{
-                            clientCallback.accept("Client #" + count + " and Dealer's hands are the same??!! They got their money back");
+                            responseData.setWinningsAmt(game.compareHands(game.getDealerHand(),
+                                    game.getPlayerHand(), readData.getAnteBet(), readData.getPlayBet()));
                         }
+                        responseData.setPairPlus(game.calculatePairPlus(game.getPlayerHand(), readData.getPairPlus()));
+
+                        if (!readData.getFold()){
+                            clientCallback.accept("Client #" + count +"'s Hand: " + responseData.getPlayerStr() + " vs. Dealer's Hand: " + responseData.getDealerStr()
+                            );
+                            if (responseData.getWinningsAmt() == 0){
+                                clientCallback.accept("Client #" + count + " lost $" + (readData.getAnteBet() + readData.getPlayBet()));
+                            }
+                            else if(!game.dealerQualifies()){
+                                clientCallback.accept("Client #" + count + " got their money back. Dealer didn't qualify");
+                            }
+                            else if (responseData.getWinningsAmt() > 0){
+                                clientCallback.accept("Client #" + count + " won $" + (readData.getAnteBet() + readData.getPlayBet()));
+                            }
+                            else{
+                                clientCallback.accept("Client #" + count + " and Dealer's hands are the same??!! They got their money back");
+                            }
+                        }
+                        if (readData.getPairPlus() != 0){
+                            clientCallback.accept("Client #" + count + " won $" + responseData.getPairPlus() + " for Pair Plus");
+                        }
+                        out.writeObject(responseData);
                     }
-                    if (readData.getPairPlus() != 0){
-                        clientCallback.accept("Client #" + count + " won $" + responseData.getPairPlus() + " for Pair Plus");
-                    }
-                    out.writeObject(responseData);
 
                 }
                 catch(Exception e) {
