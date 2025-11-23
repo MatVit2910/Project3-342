@@ -9,6 +9,7 @@ public class PokerInfo implements Serializable {
     private int anteBet;
     private int playBet;
     private int winningsAmt;
+    private int pairPlusAmt;
     private int pairPlus;
     private boolean fold;
     private boolean dealerQualifies;
@@ -26,6 +27,7 @@ public class PokerInfo implements Serializable {
         fold = false;
         dealerQualifies = false;
         startNewGame = false;
+        pairPlusAmt = -1;
     }
 
     //setters
@@ -62,6 +64,9 @@ public class PokerInfo implements Serializable {
     public void setStartNewGame(boolean startNewGame){
         this.startNewGame = startNewGame;
     }
+    public void setPairPlusAmt(int pairPlusAmt){
+        this.pairPlusAmt = pairPlusAmt;
+    }
 
     //getters
     public ArrayList<Card> getPlayerHand(){
@@ -92,5 +97,8 @@ public class PokerInfo implements Serializable {
     }
     public boolean getStartNewGame(){
         return  startNewGame;
+    }
+    public int getPairPlusAmt(){
+        return pairPlusAmt;
     }
 }

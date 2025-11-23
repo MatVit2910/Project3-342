@@ -15,14 +15,12 @@ public class Server{
     TheServer server;
     private final Consumer<Serializable> logCallback;
     private final Consumer<Serializable> clientCallback;
-    private boolean running = false;
 
 
     Server(Consumer<Serializable> call1, Consumer<Serializable> call2){
 
         logCallback = call1;
         logCallback.accept("Server started");
-        running = true;
         clientCallback = call2;
         server = new TheServer();
         server.start();
@@ -94,7 +92,6 @@ public class Server{
             while(true) {
                 try {
                     PokerInfo readInitialData = (PokerInfo) in.readObject();
-                    System.out.println("GAME STARTED");
                     if (readInitialData.getStartNewGame()) {
                         clientCallback.accept("Client #" +count+ " is playing a new hand.");
                         //create and start new game
@@ -129,7 +126,7 @@ public class Server{
                             responseData.setWinningsAmt(game.compareHands(game.getDealerHand(),
                                     game.getPlayerHand(), readData.getAnteBet(), readData.getPlayBet()));
                         }
-                        responseData.setPairPlus(game.calculatePairPlus(game.getPlayerHand(), readData.getPairPlus()));
+                        responseData.setPairPlusAmt(game.calculatePairPlus(game.getPlayerHand(), readData.getPairPlus()));
 
                         if (!readData.getFold()){
                             clientCallback.accept("Client #" + count +"'s Hand: " + responseData.getPlayerStr() + " vs. Dealer's Hand: " + responseData.getDealerStr()
@@ -148,7 +145,7 @@ public class Server{
                             }
                         }
                         if (readData.getPairPlus() != 0){
-                            clientCallback.accept("Client #" + count + " won $" + responseData.getPairPlus() + " for Pair Plus");
+                            clientCallback.accept("Client #" + count + " won $" + responseData.getPairPlusAmt() + " for Pair Plus");
                         }
                         out.writeObject(responseData);
                     }

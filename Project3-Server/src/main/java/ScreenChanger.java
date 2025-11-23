@@ -14,7 +14,7 @@ public class ScreenChanger {
     private final BorderPane logScreen;
 
     public ScreenChanger() throws IOException {
-        // load all views once
+        // load all screens (controls, clients, log)
         FXMLLoader f1 = new FXMLLoader(getClass().getResource("/FXML/Control Screen.fxml"));
         controlScreen = f1.load();
         IntroController c1 = f1.getController();
