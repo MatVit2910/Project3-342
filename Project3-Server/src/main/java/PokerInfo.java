@@ -17,10 +17,10 @@ public class PokerInfo implements Serializable {
         dealer = null;
         playerStr = "";
         dealerStr = "";
-        anteBet = 0;
-        playBet = 0;
-        winningsAmt = 0;
-        pairPlus = 0;
+        anteBet = -1;
+        playBet = -1;
+        winningsAmt = -1;
+        pairPlus = -1;
         fold = false;
         dealerQualifies = false;
     }

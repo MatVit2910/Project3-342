@@ -99,39 +99,45 @@ public class Server{
                     game.startGame();
 
                     //send client initial game data
-                    PokerInfo sendData = new PokerInfo();
-                    sendData.setDealerHand(game.getDealerHand());
-                    sendData.setPlayerHand(game.getPlayerHand());
-                    sendData. setDealerStr(game.evaluateHand(game.getDealerHand()));
-                    sendData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
-                    sendData.setDealerQualifies(game.dealerQualifies());
-                    out.writeObject(sendData);
+                    PokerInfo initialData = new PokerInfo();
+                    initialData.setDealerHand(game.getDealerHand());
+                    initialData.setPlayerHand(game.getPlayerHand());
+                    initialData. setDealerStr(game.evaluateHand(game.getDealerHand()));
+                    initialData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
+                    initialData.setDealerQualifies(game.dealerQualifies());
+                    out.writeObject(initialData);
 
                     PokerInfo readData = (PokerInfo) in.readObject();
                     clientCallback.accept("Client #" + count + " bet: $" + readData.getAnteBet() + " for Ante Bet and $"
                             + readData.getPairPlus() + " for Pair Plus"
                     );
 
+                    PokerInfo responseData = new PokerInfo();
+                    responseData.setDealerHand(game.getDealerHand());
+                    responseData.setPlayerHand(game.getPlayerHand());
+                    responseData. setDealerStr(game.evaluateHand(game.getDealerHand()));
+                    responseData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
+                    responseData.setDealerQualifies(game.dealerQualifies());
                     if (readData.getFold()){
                         clientCallback.accept("Client #" + count + " folded and lost $" + readData.getAnteBet());
-                        sendData.setWinningsAmt(0);
+                        responseData.setWinningsAmt(0);
                     }
                     else{
-                        sendData.setWinningsAmt(game.compareHands(game.getDealerHand(),
+                        responseData.setWinningsAmt(game.compareHands(game.getDealerHand(),
                         game.getPlayerHand(), readData.getAnteBet(), readData.getPlayBet()));
                     }
-                    sendData.setPairPlus(game.calculatePairPlus(game.getPlayerHand(), readData.getPairPlus()));
+                    responseData.setPairPlus(game.calculatePairPlus(game.getPlayerHand(), readData.getPairPlus()));
 
                     if (!readData.getFold()){
-                        clientCallback.accept("Client #" + count +"'s Hand: " + sendData.getPlayerStr() + " vs. Dealer's Hand: " + sendData.getDealerStr()
+                        clientCallback.accept("Client #" + count +"'s Hand: " + responseData.getPlayerStr() + " vs. Dealer's Hand: " + responseData.getDealerStr()
                         );
-                        if (sendData.getWinningsAmt() == 0){
+                        if (responseData.getWinningsAmt() == 0){
                             clientCallback.accept("Client #" + count + " lost $" + (readData.getAnteBet() + readData.getPlayBet()));
                         }
                         else if(!game.dealerQualifies()){
                             clientCallback.accept("Client #" + count + " got their money back. Dealer didn't qualify");
                         }
-                        else if (sendData.getWinningsAmt() > 0){
+                        else if (responseData.getWinningsAmt() > 0){
                             clientCallback.accept("Client #" + count + " won $" + (readData.getAnteBet() + readData.getPlayBet()));
                         }
                         else{
@@ -139,9 +145,9 @@ public class Server{
                         }
                     }
                     if (readData.getPairPlus() != 0){
-                        clientCallback.accept("Client #" + count + " won $" + sendData.getPairPlus() + " for Pair Plus");
+                        clientCallback.accept("Client #" + count + " won $" + responseData.getPairPlus() + " for Pair Plus");
                     }
-                    out.writeObject(sendData);
+                    out.writeObject(responseData);
 
                 }
                 catch(Exception e) {
