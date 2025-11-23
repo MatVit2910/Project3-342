@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+//a controller for the clients screen
 public class ClientsController implements Initializable {
 
     @FXML
@@ -32,10 +33,13 @@ public class ClientsController implements Initializable {
         clientLogRef = clientLog;
     }
 
+    //sets screen change manager of this controller
     public void setScreenChanger(ScreenChanger manager) {
         this.manager = manager;
     }
 
+
+    //handle nav buttons
     public void handleControl(ActionEvent e) throws IOException {
         manager.controlScreen();
     }

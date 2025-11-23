@@ -34,9 +34,9 @@ class PokerLogicTest {
 
     @Test
     void evalHandTest(){
-        Card c1 = new Card("Spades", "A");
-        Card c2 = new Card("Spades", "2");
-        Card c3 = new Card("Spades", "J");
+        Card c1 = new Card("Spades", "A", "url");
+        Card c2 = new Card("Spades", "2", "url");
+        Card c3 = new Card("Spades", "J", "url");
         ArrayList<Card> hand = new ArrayList<>(3);
         hand.add(c1);
         hand.add(c2);
@@ -59,9 +59,9 @@ class PokerLogicTest {
 
     @Test
     void calculatePPTest(){
-        Card c1 = new Card("Spades", "A");
-        Card c2 = new Card("Spades", "A");
-        Card c3 = new Card("Spades", "J");
+        Card c1 = new Card("Spades", "A", "url");
+        Card c2 = new Card("Spades", "A", "url");
+        Card c3 = new Card("Spades", "J", "url");
         ArrayList<Card> hand = new ArrayList<>(3);
         hand.add(c1);
         hand.add(c2);
@@ -76,17 +76,17 @@ class PokerLogicTest {
 
     @Test
     void compHandsTest(){
-        Card c1 = new Card("Spades", "A");
-        Card c2 = new Card("Spades", "2");
-        Card c3 = new Card("Spades", "3");
+        Card c1 = new Card("Spades", "A", "url");
+        Card c2 = new Card("Spades", "2", "url");
+        Card c3 = new Card("Spades", "3", "url");
         ArrayList<Card> playerHand = new ArrayList<>(3);
         playerHand.add(c1);
         playerHand.add(c2);
         playerHand.add(c3);
 
-        Card c4 = new Card("Spades", "Q");
-        Card c5 = new Card("Hearts", "Q");
-        Card c6 = new Card("Spades", "Q");
+        Card c4 = new Card("Spades", "Q", "url");
+        Card c5 = new Card("Hearts", "Q", "url");
+        Card c6 = new Card("Spades", "Q", "url");
         ArrayList<Card> dealerHand = new ArrayList<>(3);
         dealerHand.add(c4);
         dealerHand.add(c5);

@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+//controller for the intro screen
 public class IntroController implements Initializable {
 
     @FXML
@@ -24,13 +25,14 @@ public class IntroController implements Initializable {
     // Internal state tracking
     private boolean isServerRunning = false;
     private static Integer portNum;
-    private static Server serverConnection;
+    public static Server serverConnection;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
+    //sets screen change manager of this controller
     public void setScreenChanger(ScreenChanger manager) {
         this.manager = manager;
     }
@@ -95,6 +97,8 @@ public class IntroController implements Initializable {
         }
     }
 
+
+    //handle nav buttons
     public void handleControl(ActionEvent e) throws IOException {
         manager.controlScreen();
     }

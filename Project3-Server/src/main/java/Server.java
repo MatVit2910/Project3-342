@@ -7,16 +7,17 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-
+//server class for 3 card poker server
 public class Server{
 
+    //data members
     int count = 1;
     public final ArrayList<ClientThread> clients = new ArrayList<>();
     TheServer server;
     private final Consumer<Serializable> logCallback;
     private final Consumer<Serializable> clientCallback;
 
-
+    //constructor
     Server(Consumer<Serializable> call1, Consumer<Serializable> call2){
 
         logCallback = call1;
@@ -39,6 +40,7 @@ public class Server{
         server.socketRef.close();
     }
 
+    //server socket thread
     public class TheServer extends Thread{
         ServerSocket socketRef;
         public void run() {
@@ -65,6 +67,7 @@ public class Server{
     }
 
 
+    //client socket thread
     class ClientThread extends Thread{
 
 
@@ -91,6 +94,7 @@ public class Server{
 
             while(true) {
                 try {
+                    //wait for client to start game
                     PokerInfo readInitialData = (PokerInfo) in.readObject();
                     if (readInitialData.getStartNewGame()) {
                         clientCallback.accept("Client #" +count+ " is playing a new hand.");
@@ -102,7 +106,7 @@ public class Server{
                         PokerInfo initialData = new PokerInfo();
                         initialData.setDealerHand(game.getDealerHand());
                         initialData.setPlayerHand(game.getPlayerHand());
-                        initialData. setDealerStr(game.evaluateHand(game.getDealerHand()));
+                        initialData.setDealerStr(game.evaluateHand(game.getDealerHand()));
                         initialData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
                         initialData.setDealerQualifies(game.dealerQualifies());
                         out.writeObject(initialData);
@@ -112,11 +116,14 @@ public class Server{
                                 + readData.getPairPlus() + " for Pair Plus"
                         );
 
+                        //read data from the client to get bets
                         PokerInfo responseData = new PokerInfo();
                         responseData.setDealerHand(game.getDealerHand());
                         responseData.setPlayerHand(game.getPlayerHand());
                         responseData. setDealerStr(game.evaluateHand(game.getDealerHand()));
                         responseData.setPlayerStr(game.evaluateHand(game.getPlayerHand()));
+
+                        //this is for logging purposes
                         if (readData.getFold()){
                             clientCallback.accept("Client #" + count + " folded and lost $" + readData.getAnteBet());
                             responseData.setWinningsAmt(0);
@@ -147,6 +154,11 @@ public class Server{
                         if (readData.getPairPlus() != 0){
                             clientCallback.accept("Client #" + count + " won $" + responseData.getPairPlusAmt() + " for Pair Plus");
                         }
+                        responseData.setPlayBet(readData.getPlayBet());
+                        responseData.setPairPlus(readData.getPairPlus());
+                        responseData.setAnteBet(readData.getAnteBet());
+
+                        //send results of game to client
                         out.writeObject(responseData);
                     }
 

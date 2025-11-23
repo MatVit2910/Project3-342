@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+//controller class for log screen
 public class LogController implements Initializable {
 
     @FXML
@@ -21,10 +22,12 @@ public class LogController implements Initializable {
         logRef = log;
     }
 
+    //sets screen changer manger for this controller
     public void setScreenChanger(ScreenChanger manager) {
         this.manager = manager;
     }
 
+    //handle nav buttons
     public void handleControl(ActionEvent e) throws IOException {
         manager.controlScreen();
     }
