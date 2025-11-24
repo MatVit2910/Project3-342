@@ -1,10 +1,7 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//class to send data of the game between server and client
 public class PokerInfo implements Serializable {
-
-    //data members
     private ArrayList<Card> player;
     private ArrayList<Card> dealer;
     private String playerStr;
@@ -17,8 +14,8 @@ public class PokerInfo implements Serializable {
     private boolean fold;
     private boolean dealerQualifies;
     private boolean startNewGame;
+    private boolean freshStart;
 
-    //constructor
     public PokerInfo(){
         player = null;
         dealer = null;
@@ -32,6 +29,7 @@ public class PokerInfo implements Serializable {
         dealerQualifies = false;
         startNewGame = false;
         pairPlusAmt = -1;
+        freshStart = false;
     }
 
     //setters
@@ -71,6 +69,9 @@ public class PokerInfo implements Serializable {
     public void setPairPlusAmt(int pairPlusAmt){
         this.pairPlusAmt = pairPlusAmt;
     }
+    public void setFreshStart(boolean freshStart){
+        this.freshStart = freshStart;
+    }
 
     //getters
     public ArrayList<Card> getPlayerHand(){
@@ -104,5 +105,8 @@ public class PokerInfo implements Serializable {
     }
     public int getPairPlusAmt(){
         return pairPlusAmt;
+    }
+    public boolean getFreshStart(){
+        return freshStart;
     }
 }

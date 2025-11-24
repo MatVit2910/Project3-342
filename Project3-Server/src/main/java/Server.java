@@ -112,6 +112,9 @@ public class Server{
                         out.writeObject(initialData);
 
                         PokerInfo readData = (PokerInfo) in.readObject();
+                        if (readData.getFreshStart()){
+                            continue;
+                        }
                         clientCallback.accept("Client #" + count + " bet: $" + readData.getAnteBet() + " for Ante Bet and $"
                                 + readData.getPairPlus() + " for Pair Plus"
                         );
