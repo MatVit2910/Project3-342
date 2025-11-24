@@ -15,14 +15,12 @@ import java.util.ResourceBundle;
 //controller for the intro screen
 public class IntroController implements Initializable {
 
+    //data members
     @FXML
     private TextField portInput;
     @FXML
     private Button toggleButton;
-
     private ScreenChanger manager;
-
-    // Internal state tracking
     private boolean isServerRunning = false;
     private static Integer portNum;
     public static Server serverConnection;
@@ -38,23 +36,20 @@ public class IntroController implements Initializable {
     }
 
     public void handleToggleButton() throws IOException {
+        //into screen state when server is stopped
         if (isServerRunning) {
-            // STOP state logic (Simulate stopping the server)
             isServerRunning = false;
-
-            // Update UI for STOPPED state
             toggleButton.setText("START");
             toggleButton.getStyleClass().remove("stop-button");
             toggleButton.getStyleClass().add("start-button");
-
             portInput.setDisable(false);
             portInput.clear();
-
-            System.out.println("SERVER: Server stopped.");
             serverConnection.stop();
 
-        } else {
-            // START state logic (Simulate starting the server)
+        }
+        //intro screen when server is running
+        else {
+            //check for valid port
             String portStr = portInput.getText();
             if (portStr == null || portStr.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -65,13 +60,12 @@ public class IntroController implements Initializable {
             }
             else{
                 try{
+                    //change screen and create server
                     portNum = Integer.parseInt(portStr);
                     isServerRunning = true;
                     toggleButton.setText("STOP");
                     toggleButton.getStyleClass().remove("start-button");
                     toggleButton.getStyleClass().add("stop-button");
-
-                    // Switch from input field to status label
                     portInput.setDisable(true);
                     portInput.setText("Running on port: " + portStr);
                     serverConnection = new Server(data -> Platform.runLater(() -> {
@@ -86,7 +80,9 @@ public class IntroController implements Initializable {
                     })
                     );
                     System.out.println("SERVER: Server started on port " + portStr);
-                } catch (Exception e) {
+                }
+                //popup for when port is not a num
+                catch (Exception e) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Port must be a valid number");
                     alert.setHeaderText("Please add a valid port number (e.g. 88888)");
@@ -102,11 +98,9 @@ public class IntroController implements Initializable {
     public void handleControl(ActionEvent e) throws IOException {
         manager.controlScreen();
     }
-
     public void handleClients(ActionEvent e) throws IOException {
         manager.clientsScreen();
     }
-
     public void handleLog() {
         manager.logScreen();
     }
@@ -116,13 +110,15 @@ public class IntroController implements Initializable {
         return portNum;
     }
 
-    // This helper method needs to exist within the scope where 'ClientsController' is available
+    //function to update the clients grid
     private void updateClientsGrid(ArrayList<Server.ClientThread> activeClients) {
         ClientsController.clientsGridRef.getChildren().clear();
         int index = 0;
         for (Server.ClientThread client : activeClients) {
             int row = index /4;
             int col = index % 4;
+
+            //the grids have to be created dynamically, that's why I am using setStyle :c
             Label clientLabel = new Label("Client #" + client.count);
             clientLabel.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-pref-width: 100; -fx-alignment: CENTER; -fx-background-radius: 30; -fx-font-weight: bold; -fx-border-radius: 30");
             ClientsController.clientsGridRef.add(clientLabel, col, row);

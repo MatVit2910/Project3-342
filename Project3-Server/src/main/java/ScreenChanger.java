@@ -13,6 +13,7 @@ public class ScreenChanger {
     private final BorderPane clientsScreen;
     private final BorderPane logScreen;
 
+    //constructor
     public ScreenChanger() throws IOException {
         // load all screens (controls, clients, log)
         FXMLLoader f1 = new FXMLLoader(getClass().getResource("/FXML/Control Screen.fxml"));
@@ -37,16 +38,15 @@ public class ScreenChanger {
         return root;
     }
 
+    //functions for nav buttons
     public void controlScreen() {
         root.setCenter(controlScreen);
         root.getStylesheets().add("/styles/control.css");
     }
-
     public void clientsScreen() {
         root.setCenter(clientsScreen);
         root.getStylesheets().add("/styles/clients.css");
     }
-
     public void logScreen() {
         root.setCenter(logScreen);
         root.getStylesheets().add("/styles/log.css");

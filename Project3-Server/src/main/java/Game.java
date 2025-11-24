@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
+//class for the poker logic (basically PokerLogic)
 public class Game {
     //data members
     private final Deck deck;
@@ -58,36 +59,31 @@ public class Game {
         Pair - 2 cards same rank
         -----------------------------------*/
 
+        //ugly booleans but they work :)
         boolean isFlush = hand.get(0).getSuit().equals(hand.get(1).getSuit())
                 && hand.get(1).getSuit().equals(hand.get(2).getSuit());
-
         boolean isStraight = (ranks.get(0) == ranks.get(1) - 1) && (ranks.get(1) == ranks.get(2) - 1)
                 || (ranks.get(0) == 2 && ranks.get(1) == 3 && ranks.get(2) == 14);
-
         boolean isThreeOfAKind = (ranks.get(0).equals(ranks.get(1)) && ranks.get(1).equals(ranks.get(2)));
         boolean isPair = !isThreeOfAKind &&
                 (ranks.get(0).equals(ranks.get(1)) || ranks.get(1).equals(ranks.get(2)) || ranks.get(0).equals(ranks.get(2)));
 
+        //check and return hands
         if (isStraight && isFlush) {
             return "Straight Flush";
         }
-
         if (isThreeOfAKind) {
             return "Three of a Kind";
         }
-
         if (isStraight) {
             return "Straight";
         }
-
         if (isFlush) {
             return "Flush";
         }
-
         if (isPair) {
             return "Pair";
         }
-
         return "High Card";
     }
 
@@ -118,6 +114,7 @@ public class Game {
         dealerQualifies = false;
         String dealerHand = evaluateHand(dealer);
 
+        //check if dealer qualifies
         if (handsOrder.get(dealerHand) >= handsOrder.get("Pair")){
             dealerQualifies = true;
         }
@@ -130,7 +127,7 @@ public class Game {
             }
         }
 
-        // print statements are for easier debugging
+        //print statements are not used, they're just for debugging :)
         if (!dealerQualifies){
             System.out.println("Dealer doesn't qualify");
             return (anteBet+playBet);
@@ -141,6 +138,8 @@ public class Game {
 
         Integer dealerScore = handsOrder.get(dealerHand);
         Integer playerScore = handsOrder.get(playerHand);
+
+        //check who wins
         if (dealerScore > playerScore){
             System.out.println("Player lost :c");
             return 0;
@@ -165,8 +164,8 @@ public class Game {
                 }
             }
 
-            //No way this happens
-            System.out.println("Hands are identical.");
+            //no way this happens
+            System.out.println("Hands are identical :O.");
             return (anteBet+playBet);
         }
 

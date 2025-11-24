@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+//testing poker logic
 class PokerLogicTest {
     static Game game;
     static Deck deck;

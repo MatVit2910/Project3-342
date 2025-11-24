@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import java.io.IOException;
 import java.util.ArrayList;
 
-//Main App
+//main app
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -30,7 +30,6 @@ public class Main extends Application {
         super.stop();
         IntroController.serverConnection.stop();
     }
-
 
     public static void main(String[] args) {
         launch(args);
